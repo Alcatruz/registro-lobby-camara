@@ -2,6 +2,8 @@
 
 Qué dicen las 18.391 audiencias de lobby que registró la Cámara de Diputados de Chile entre diciembre de 2014 y septiembre de 2026.
 
+**📖 [Leer el análisis →](https://alcatruz.github.io/registro-lobby-camara/)**
+
 El post está en `index.html` y se publica con GitHub Pages.
 
 ## Contenido
