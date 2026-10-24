@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trece palabras</title>
+<meta name="description" content="Qué dicen las 18.391 audiencias de lobby que registró la Cámara de Diputados de Chile entre 2014 y 2026.">
+<meta name="author" content="Daniel Alcatruz">
+<meta property="og:title" content="Trece palabras">
+<meta property="og:description" content="Qué dicen las audiencias de lobby que registró la Cámara de Diputados de Chile, 2014-2026.">
+<meta property="og:type" content="article">
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+  --s1: #2a78d6;
+  --s1-claro: #86b6ef;
+  --s2: #eb6834;
+  --link: #1c5cab;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+    --s1: #3987e5;
+    --s1-claro: #184f95;
+    --s2: #d95926;
+    --link: #86b6ef;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --ink: #f0efec;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --border: rgba(255, 255, 255, 0.10);
+  --s1: #3987e5;
+  --s1-claro: #184f95;
+  --s2: #d95926;
+  --link: #86b6ef;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.6;
+}
+main { padding: 0 16px 64px; }
+.col { max-width: 680px; margin: 0 auto; }
+.ancho { max-width: 920px; margin: 0 auto; }
+
+header.cabecera { padding: 56px 0 8px; }
+.antetitulo {
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 12px;
+}
+h1 {
+  font-family: var(--sans); font-weight: 700; font-size: clamp(36px, 7vw, 52px);
+  line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 16px; text-wrap: balance;
+}
+.bajada { font-size: 21px; line-height: 1.45; color: var(--ink-2); margin: 0 0 20px; text-wrap: pretty; }
+.firma { font-family: var(--sans); font-size: 14px; color: var(--muted); margin: 0; }
+.firma a { color: var(--ink-2); }
+
+h2 {
+  font-family: var(--sans); font-size: 24px; line-height: 1.25; font-weight: 700;
+  margin: 56px 0 12px; letter-spacing: -0.005em;
+}
+h3 { font-family: var(--sans); font-size: 17px; font-weight: 700; margin: 32px 0 8px; }
+p { margin: 0 0 18px; text-wrap: pretty; }
+a { color: var(--link); text-underline-offset: 2px; }
+.cita { font-style: italic; }
+
+.recuadro {
+  border: 1px solid var(--border); background: var(--surface); border-radius: 10px;
+  padding: 18px 22px; margin: 28px 0; font-size: 17px; line-height: 1.55;
+}
+.recuadro p:last-child { margin-bottom: 0; }
+
+figure { margin: 32px auto 36px; }
+.grafico {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 8px 4px; overflow: hidden;
+}
+.lienzo { width: 100%; }
+figcaption {
+  font-family: var(--sans); font-size: 14px; line-height: 1.5; color: var(--ink-2);
+  margin: 10px 4px 0; max-width: 680px;
+}
+figcaption b { color: var(--ink); }
+
+.tabla-envoltura {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+th, td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--grid); }
+th { color: var(--muted); font-weight: 600; font-size: 12.5px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.texto { color: var(--ink); line-height: 1.45; }
+
+ul.notas { padding-left: 20px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+ul.notas li { margin-bottom: 8px; }
+.ref { font-size: 16px; line-height: 1.55; color: var(--ink-2); padding-left: 2em; text-indent: -2em; margin-bottom: 10px; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0 0; }
+footer { font-family: var(--sans); font-size: 13px; color: var(--muted); padding: 20px 0 0; }
+
+@media (max-width: 600px) {
+  body { font-size: 17.5px; }
+  header.cabecera { padding-top: 36px; }
+  .bajada { font-size: 19px; }
+  h2 { font-size: 21px; margin-top: 44px; }
+  .grafico { padding: 8px 2px 2px; border-radius: 8px; }
+  .recuadro { padding: 14px 16px; }
+  table { font-size: 13px; }
+  th, td { padding: 8px 6px; }
+  th { font-size: 11.5px; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="cabecera col">
+  <p class="antetitulo">Lobby · Cámara de Diputados</p>
+  <h1>Trece palabras</h1>
+  <p class="bajada">Qué dicen las 18.391 audiencias de lobby que registró la Cámara de Diputados entre 2014 y 2026.</p>
+  <p class="firma"><a href="https://github.com/Alcatruz">Daniel Alcatruz</a> · 24 de octubre de 2026</p>
+</header>
+
+<article>
+<div class="col">
+  <p>Ley de Pesca. Con esas tres palabras quedaron registradas 37 audiencias de lobby en la Cámara de Diputados. Ley de Fármacos II, otras 38. Ley de identidad de género, 43.</p>
+
+  <p>La Ley 20.730 obliga a los diputados a publicar las audiencias que buscan influir en sus decisiones y a dejar constancia de la materia específica tratada (art. 8). La promesa es que el registro muestre quién busca influir en qué decisión. Entre diciembre de 2014 y septiembre de 2026 la Cámara publicó 18.391 audiencias. La mediana de lo que se escribe sobre cada una es de 13 palabras.</p>
+
+  <p>Ahí está la tensión. El registro existe, se llena y se publica. Pero ¿cuántas de esas audiencias permiten saber qué se quería obtener? ¿Y quién revisa que lo anotado diga algo?</p>
+
+  <div class="recuadro">
+    <p><b>Cómo se midió.</b> La base reúne todas las audiencias publicadas en camara.cl. Una cáscara es una materia de menos de cinco palabras. Una materia nombra una decisión si menciona una ley, un proyecto, vocabulario legislativo o un acto administrativo concreto, como un decreto, una licitación, un permiso o un subsidio. Dice qué espera si además indica una dirección, como aprobar, rechazar, modificar o presentar indicaciones. Una audiencia se enlaza con un proyecto concreto cuando la materia trae su boletín o su nombre se identifica con alta confianza.</p>
+  </div>
+
+  <h2>De 18.391 a 1.045</h2>
+  <p>La Figura 1 sigue a las audiencias desde que se registran hasta que permiten identificar la decisión. El 87% tiene una materia de cinco palabras o más. La mitad nombra una ley, un proyecto o un acto administrativo. Pero solo el 13,6% se puede enlazar con un proyecto de ley concreto, el 10,9% dice qué espera de la decisión que nombra y el 5,7% cita el número de boletín. Es decir, en casi nueve de cada diez audiencias la materia no dice qué se esperaba obtener.</p>
+</div>
+
+<figure class="ancho">
+  <div class="grafico"><div id="fig-escalera" class="lienzo" role="img" aria-label="Audiencias que cumplen cada paso, desde el registro hasta la cita del boletín"></div></div>
+  <figcaption><b>Figura 1.</b> Audiencias de lobby de la Cámara de Diputados según cuánto permite identificar la materia registrada, diciembre de 2014 a septiembre de 2026. Desde la tercera barra, cada una es una forma más exigente de identificar la decisión, no un subconjunto estricto de la anterior.</figcaption>
+</figure>
+
+<div class="col">
+  <h2>Más largos, no más precisos</h2>
+  <p>Con los años los textos se alargaron. La mediana pasó de 10 palabras en 2015 a 15 en 2025, y las cáscaras bajaron del 17% al 10%. Pero la proporción que nombra una decisión se movió entre 46% y 60% sin tendencia, y la que dice qué se espera osciló entre 8% y 15% (Figura 2). Se escribe más. Se dice lo mismo.</p>
+</div>
+
+<figure class="ancho">
+  <div class="grafico"><div id="fig-serie" class="lienzo" role="img" aria-label="Mediana de palabras y porcentaje de materias que nombran una decisión, por año"></div></div>
+  <figcaption><b>Figura 2.</b> Mediana de palabras de la materia (izquierda) y porcentaje de audiencias que nombran una decisión y que además dicen qué esperan de ella (derecha), por año. 2026 llega hasta septiembre.</figcaption>
+</figure>
+
+<div class="col">
+  <h2>Textos que se repiten</h2>
+  <p>Una de cada cinco audiencias usa un texto que aparece cinco veces o más. Son 405 textos y casi todos circularon por más de una oficina. La mitad los usó un solo solicitante que recorrió la Cámara con la misma solicitud, y el resto los comparten varios, como los 24 solicitantes que registraron Ley de Pesca. Los más repetidos nombran una ley sin decir qué se quiere de ella. Otros son pedidos de entrevista para estudios académicos, que quedan registrados como lobby (Tabla 1). Los que citan el boletín y dicen la posición existen, pero son la excepción.</p>
+</div>
+
+<figure class="ancho">
+  <div class="tabla-envoltura">
+    <table id="tabla-textos">
+      <thead><tr><th>Texto registrado</th><th class="num">Audiencias</th><th class="num">Solicitantes</th><th class="num">Oficinas</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <figcaption><b>Tabla 1.</b> Los 15 textos de materia más repetidos, con el número de audiencias, de solicitantes distintos y de oficinas de diputados donde aparecen. Los textos largos se acortan, y al pasar el cursor se ve el texto completo.</figcaption>
+</figure>
+
+<div class="col">
+  <h2>Quién pide y qué se anota</h2>
+  <p>La calidad cambia según quién pide la audiencia. Las organizaciones de profesionales nombran una decisión en el 72% de sus audiencias y dicen qué esperan en el 31%. Las empresas, que piden un tercio de las audiencias, nombran una decisión en el 48% y dicen qué esperan en el 10%. Las personas naturales piden el 22% y nombran una decisión en el 35%, y una de cada cinco de sus materias es una cáscara (Figura 3).</p>
+
+  <p>Eso tiene una explicación. Muchas de esas audiencias no buscan influir en una decisión pública, son personas que llegan con un problema propio. Una clasificación automática, todavía sin validar, encuentra un caso personal o un problema del barrio en un tercio de ellas. El registro las anota igual, con la misma etiqueta que a un gremio que discute un proyecto.</p>
+</div>
+
+<figure class="ancho">
+  <div class="grafico"><div id="fig-tipo" class="lienzo" role="img" aria-label="Porcentaje de audiencias que nombran una decisión y que dicen qué esperan, por tipo de solicitante"></div></div>
+  <figcaption><b>Figura 3.</b> Porcentaje de audiencias cuya materia nombra una decisión y porcentaje que además dice qué espera de ella, por tipo de solicitante. Entre paréntesis, la proporción del total de audiencias que pide cada tipo.</figcaption>
+</figure>
+
+<div class="col">
+  <h2>Cada oficina, su registro</h2>
+  <p>La regla, además, la aplica el propio regulado. Según el reglamento que aprobó la Cámara en 2014, quien pide la audiencia debe indicar la materia y la decisión que espera obtener, y el diputado registra lo tratado con referencia a esa decisión. Es el diputado quien recibe la solicitud y quien publica. Entre las 325 oficinas con 20 audiencias o más en un período, la proporción de materias que nombra una decisión va de 34% en el decil más bajo a 69% en el más alto. En tres oficinas más de la mitad de lo registrado son cáscaras (Figura 4). Con la misma ley y el mismo reglamento, cada oficina produce un registro distinto.</p>
+</div>
+
+<figure class="ancho">
+  <div class="grafico"><div id="fig-oficinas" class="lienzo" role="img" aria-label="Porcentaje de materias que nombran una decisión en cada oficina de diputado, por período"></div></div>
+  <figcaption><b>Figura 4.</b> Porcentaje de materias que nombran una decisión en cada oficina, entendida como un diputado en un período legislativo con 20 audiencias o más. Cada punto es una oficina. No se muestran nombres.</figcaption>
+</figure>
+
+<div class="col">
+  <h2>Advertido antes de aprobarse</h2>
+  <p>Nada de esto fue imprevisto. En junio de 2013, cuando la Comisión de Constitución de la Cámara discutía el texto que hoy rige, el presidente del Consejo para la Transparencia advirtió que hacer cumplir el registro exigía un órgano capaz de contrastar lo informado con la actividad real de cada autoridad. Sin ese órgano, comprobar si lo registrado era completo y fiel sería muy difícil en la práctica. La advertencia no se recogió. En el Congreso el control quedó en las Comisiones de Ética y Transparencia de cada Cámara, que pueden multar al parlamentario que no registra dentro del plazo (Ley 20.730, art. 19). Registrar a tiempo una materia que no dice nada no está tipificado como infracción.</p>
+
+  <h2>Lo que queda</h2>
+  <p>Para quien investiga, la consecuencia es directa. Una audiencia de lobby en la Cámara puede ser un gremio que discute un proyecto, una empresa que se presenta, una encuesta académica o un vecino con un problema, y el texto rara vez permite distinguirlos. Contarlas como si fueran lo mismo mezcla unidades distintas.</p>
+
+  <p>Para el registro, la pregunta es otra. ¿De qué sirve publicar quién se reunió con quién si casi nunca queda escrito para qué? La audiencia queda anotada. La decisión, casi nunca.</p>
+
+  <h3>Datos, código y decisiones</h3>
+  <ul class="notas">
+    <li>Audiencias publicadas por la Cámara de Diputados en camara.cl entre el 3 de diciembre de 2014 y el 25 de septiembre de 2026, incluidas las que sostuvieron asesores. Se bajaron en septiembre de 2026.</li>
+    <li>El tipo de solicitante combina reglas por forma jurídica y palabras clave con un modelo de lenguaje para los casos ambiguos. El 2,2% de las audiencias queda sin clasificar.</li>
+    <li>La clasificación de las audiencias de personas naturales en casos personales o problemas locales se hizo con un modelo de lenguaje y todavía no tiene validación humana.</li>
+    <li>Para la Figura 2 se omite 2014, que tiene 32 audiencias desde diciembre.</li>
+    <li>Los textos repetidos se compararon después de pasar a minúsculas, quitar tildes y puntuación.</li>
+    <li>Ley 20.730, arts. 4, 8, 9 y 19, leídos en el texto vigente de LeyChile. La advertencia de 2013 está en el primer informe de la Comisión de Constitución, Legislación y Justicia sobre el boletín 6189-06, del 18 de junio de 2013.</li>
+    <li>No se publican nombres de quienes pidieron audiencias ni de los diputados. El código y los agregados están en el <a href="https://github.com/Alcatruz/registro-lobby-camara">repositorio</a>.</li>
+  </ul>
+
+  <h3>Referencias</h3>
+  <p class="ref">Cámara de Diputados de Chile. (2014). <i>Reglamento de la Ley N.º 20.730, que regula el lobby y las gestiones que representen intereses particulares ante las autoridades y funcionarios, de la Cámara de Diputados</i>. Aprobado el 27 de noviembre de 2014.</p>
+  <p class="ref">Ley 20.730 de 2014. Regula el lobby y las gestiones que representen intereses particulares ante las autoridades y funcionarios. Diario Oficial, 8 de marzo de 2014. <a href="https://bcn.cl/ThSmWl">https://bcn.cl/ThSmWl</a></p>
+
+  <hr>
+  <footer>Daniel Alcatruz · 2026</footer>
+</div>
+</article>
+</main>
+
+<script src="datos/datos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-basic-dist-min@2.35.2/plotly-basic.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var L = window.LOBBY;
+  if (!L) return;
+
+  function num(x, d) { return x.toLocaleString("es-CL", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function pct(x, d) { return num(100 * x, d === undefined ? 1 : d) + "%"; }
+  function entero(x) { return x.toLocaleString("es-CL"); }
+
+  // Tabla 1 (no depende de Plotly)
+  var cuerpo = document.querySelector("#tabla-textos tbody");
+  L.textos.forEach(function (t) {
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    td.className = "texto";
+    td.textContent = t.texto.length > 150 ? t.texto.slice(0, 147).trim() + "…" : t.texto;
+    td.title = t.texto;
+    tr.appendChild(td);
+    [t.audiencias, t.solicitantes, t.oficinas].forEach(function (v) {
+      var c = document.createElement("td"); c.className = "num"; c.textContent = entero(v); tr.appendChild(c);
+    });
+    cuerpo.appendChild(tr);
+  });
+
+  if (!window.Plotly) return;
+  var CONFIG = { displayModeBar: false, responsive: true, scrollZoom: false };
+
+  function tok() {
+    var s = getComputedStyle(document.documentElement);
+    var g = function (n) { return s.getPropertyValue(n).trim(); };
+    return { surface: g("--surface"), ink: g("--ink"), ink2: g("--ink-2"), muted: g("--muted"),
+             grid: g("--grid"), axis: g("--axis"), s1: g("--s1"), s1c: g("--s1-claro"), s2: g("--s2") };
+  }
+  function ancho(id) { return document.getElementById(id).clientWidth; }
+  function base(T, extra) {
+    var l = {
+      paper_bgcolor: T.surface, plot_bgcolor: T.surface,
+      font: { family: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', size: 12, color: T.ink2 },
+      separators: ",.", margin: { l: 56, r: 16, t: 40, b: 48 },
+      hoverlabel: { bgcolor: T.surface, bordercolor: T.axis, font: { color: T.ink, size: 13 } },
+      legend: { orientation: "h", x: 0, xanchor: "left", y: 1.02, yanchor: "bottom", font: { color: T.ink2, size: 12 } },
+      dragmode: false
+    };
+    for (var k in extra) l[k] = extra[k];
+    return l;
+  }
+  function eje(T, extra) {
+    var a = { gridcolor: T.grid, linecolor: T.axis, zeroline: false, fixedrange: true,
+              tickfont: { color: T.muted }, title: { font: { color: T.ink2, size: 12 } } };
+    for (var k in extra) { if (k === "title") a.title.text = extra[k]; else a[k] = extra[k]; }
+    return a;
+  }
+
+  // Figura 1 ------------------------------------------------------------------
+  function figEscalera(T) {
+    var E = L.escalera;
+    var angosto = ancho("fig-escalera") < 600;
+    var etiquetas = E.map(function (e) { return e.paso; });
+    var data = [{
+      type: "bar", orientation: "h", x: E.map(function (e) { return 100 * e.pct; }), y: etiquetas,
+      marker: { color: E.map(function (e, i) { return i === 0 ? T.axis : T.s1; }) },
+      text: E.map(function (e) { return entero(e.n) + " · " + pct(e.pct, 1); }),
+      textposition: "outside", cliponaxis: false, textfont: { color: T.ink2, size: 12 },
+      hovertemplate: "%{y}<br>%{text}<extra></extra>", width: 0.55
+    }];
+    var layout = base(T, {
+      height: angosto ? 380 : 330, showlegend: false,
+      margin: { l: angosto ? 150 : 270, r: 90, t: 10, b: 40 },
+      xaxis: eje(T, { range: [0, 100], ticksuffix: "%", dtick: 25 }),
+      yaxis: eje(T, { autorange: "reversed", showgrid: false, tickfont: { color: T.ink2, size: angosto ? 11 : 13 } })
+    });
+    if (angosto) layout.yaxis.ticktext = etiquetas.map(function (s) { return s.replace(/ (un|una|el|de|con) /, " $1<br>"); });
+    if (angosto) layout.yaxis.tickvals = etiquetas;
+    Plotly.react("fig-escalera", data, layout, CONFIG);
+  }
+
+  // Figura 2 ------------------------------------------------------------------
+  function figSerie(T) {
+    var S = L.serie;
+    var anos = S.map(function (s) { return s.anno; });
+    var ult = S.length - 1;
+    var angosto = ancho("fig-serie") < 600;
+    var d1 = angosto ? { x: [0, 1], y: [0.6, 1] } : { x: [0, 0.42], y: [0, 1] };
+    var d2 = angosto ? { x: [0, 1], y: [0, 0.4] } : { x: [0.54, 1], y: [0, 1] };
+    function marcas(color) {
+      return { size: 8, color: S.map(function (s, i) { return i === ult ? T.surface : color; }), line: { color: color, width: 2 } };
+    }
+    var data = [
+      { type: "scatter", mode: "lines+markers", name: "Mediana de palabras", showlegend: false, xaxis: "x", yaxis: "y",
+        x: anos, y: S.map(function (s) { return s.mediana_palabras; }), line: { color: T.ink, width: 2 }, marker: marcas(T.ink),
+        hovertemplate: "%{x}<br>Mediana %{y} palabras<extra></extra>" },
+      { type: "scatter", mode: "lines+markers", name: "Nombra una decisión", xaxis: "x2", yaxis: "y2",
+        x: anos, y: S.map(function (s) { return 100 * s.nombra_decision; }), line: { color: T.s1, width: 2 }, marker: marcas(T.s1),
+        customdata: S.map(function (s) { return pct(s.nombra_decision); }), hovertemplate: "%{x}<br>Nombra una decisión %{customdata}<extra></extra>" },
+      { type: "scatter", mode: "lines+markers", name: "Además dice qué espera", xaxis: "x2", yaxis: "y2",
+        x: anos, y: S.map(function (s) { return 100 * s.con_direccion; }), line: { color: T.s2, width: 2 }, marker: marcas(T.s2),
+        customdata: S.map(function (s) { return pct(s.con_direccion); }), hovertemplate: "%{x}<br>Dice qué espera %{customdata}<extra></extra>" }
+    ];
+    var ticks = { tickvals: [2015, 2018, 2021, 2024, 2026], ticktext: ["2015", "2018", "2021", "2024", "2026*"] };
+    var layout = base(T, {
+      height: angosto ? 640 : 360,
+      margin: { l: 48, r: 12, t: 44, b: 40 },
+      legend: { orientation: "h", x: d2.x[0], xanchor: "left", y: d2.y[1], yanchor: "bottom", font: { color: T.ink2, size: 12 } },
+      xaxis: eje(T, Object.assign({ domain: d1.x, anchor: "y", showgrid: false, showline: true }, ticks)),
+      yaxis: eje(T, { domain: d1.y, anchor: "x", range: [0, 20], dtick: 5 }),
+      xaxis2: eje(T, Object.assign({ domain: d2.x, anchor: "y2", showgrid: false, showline: true }, ticks)),
+      yaxis2: eje(T, { domain: d2.y, anchor: "x2", range: [0, 70], dtick: 20, ticksuffix: "%" }),
+      annotations: [
+        { text: "<b>Mediana de palabras</b>", xref: "paper", yref: "paper", x: d1.x[0], y: d1.y[1], xanchor: "left", yanchor: "bottom", yshift: 8, showarrow: false, font: { color: T.ink, size: 13 } }
+      ]
+    });
+    layout.legend.y = d2.y[1] + (angosto ? 0.01 : 0.03);
+    Plotly.react("fig-serie", data, layout, CONFIG);
+  }
+
+  // Figura 3 ------------------------------------------------------------------
+  function figTipo(T) {
+    var P = L.por_tipo.filter(function (p) { return p.tipo !== "Sin clasificar"; })
+      .sort(function (a, b) { return b.nombra_decision - a.nombra_decision; });
+    var angosto = ancho("fig-tipo") < 600;
+    var y = P.map(function (p) {
+      var t = angosto && p.tipo.length > 14 ? p.tipo.replace(" ", "<br>") : p.tipo;
+      return t + " (" + pct(p.pct_audiencias, 0) + ")";
+    });
+    var data = [
+      { type: "bar", orientation: "h", name: "Nombra una decisión", y: y, x: P.map(function (p) { return 100 * p.nombra_decision; }),
+        marker: { color: T.s1c }, width: 0.6,
+        customdata: P.map(function (p) { return [pct(p.nombra_decision), pct(p.cascaras), entero(p.audiencias), p.mediana_palabras]; }),
+        hovertemplate: "<b>%{y}</b><br>Nombra una decisión %{customdata[0]}<br>Cáscaras %{customdata[1]}<br>%{customdata[2]} audiencias, mediana %{customdata[3]} palabras<extra></extra>" },
+      { type: "bar", orientation: "h", name: "Además dice qué espera", y: y, x: P.map(function (p) { return 100 * p.con_direccion; }),
+        marker: { color: T.s1 }, width: 0.6,
+        customdata: P.map(function (p) { return pct(p.con_direccion); }),
+        hovertemplate: "<b>%{y}</b><br>Dice qué espera %{customdata}<extra></extra>" }
+    ];
+    var layout = base(T, {
+      height: angosto ? 420 : 360, barmode: "overlay",
+      margin: { l: angosto ? 150 : 230, r: 20, t: 40, b: 40 },
+      xaxis: eje(T, { range: [0, 80], ticksuffix: "%", dtick: 20 }),
+      yaxis: eje(T, { autorange: "reversed", showgrid: false, tickfont: { color: T.ink2, size: angosto ? 11 : 13 } })
+    });
+    Plotly.react("fig-tipo", data, layout, CONFIG);
+  }
+
+  // Figura 4 ------------------------------------------------------------------
+  function hash(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return (h >>> 0) / 4294967295;
+  }
+  function figOficinas(T) {
+    var O = L.oficinas;
+    var per = Array.from(new Set(O.map(function (o) { return o.periodo; }))).sort();
+    var data = [{
+      type: "scatter", mode: "markers", showlegend: false,
+      x: O.map(function (o) { return 100 * o.nombra_decision; }),
+      y: O.map(function (o, i) { return per.indexOf(o.periodo) + (hash(o.periodo + i) - 0.5) * 0.55; }),
+      customdata: O.map(function (o) { return [o.periodo, entero(o.audiencias), pct(o.nombra_decision), pct(o.cascaras), o.mediana_palabras]; }),
+      hovertemplate: "Oficina en %{customdata[0]}<br>%{customdata[1]} audiencias<br>Nombra una decisión %{customdata[2]}<br>Cáscaras %{customdata[3]}<br>Mediana %{customdata[4]} palabras<extra></extra>",
+      marker: { size: 8, color: T.s1, opacity: 0.7, line: { color: T.surface, width: 1 } }
+    }];
+    var conteo = per.map(function (p) { return O.filter(function (o) { return o.periodo === p; }).length; });
+    var layout = base(T, {
+      height: 340, margin: { l: 104, r: 16, t: 16, b: 48 },
+      xaxis: eje(T, { range: [0, 100], ticksuffix: "%", dtick: 25, title: "Materias que nombran una decisión" }),
+      yaxis: eje(T, { tickvals: per.map(function (p, i) { return i; }),
+                      ticktext: per.map(function (p, i) { return p + "<br>" + conteo[i] + " oficinas"; }),
+                      autorange: false, range: [per.length - 0.5, -0.5], showgrid: false })
+    });
+    Plotly.react("fig-oficinas", data, layout, CONFIG);
+  }
+
+  function todo() { var T = tok(); figEscalera(T); figSerie(T); figTipo(T); figOficinas(T); }
+  todo();
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", todo);
+  }
+  var t;
+  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(todo, 200); });
+})();
+</script>
+</body>
+</html>
